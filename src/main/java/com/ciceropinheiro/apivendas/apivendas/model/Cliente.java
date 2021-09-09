@@ -11,7 +11,6 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
 @Entity
 @Table(name = "tb_cliente")
 public class Cliente {
@@ -30,6 +29,12 @@ public class Cliente {
 
     private Integer diaCorte;
 
+    public Cliente(String nome, String cpf, Integer diaVencimento, Integer diaCorte) {
+        this.nome = nome;
+        this.cpf = cpf;
+        this.diaVencimento = diaVencimento;
+        this.diaCorte = diaCorte;
+    }
 
     @Override
     public boolean equals(Object o) {
