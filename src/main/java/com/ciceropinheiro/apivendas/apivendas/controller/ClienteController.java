@@ -1,5 +1,6 @@
 package com.ciceropinheiro.apivendas.apivendas.controller;
 
+import com.ciceropinheiro.apivendas.apivendas.dto.AtualizarClienteDto;
 import com.ciceropinheiro.apivendas.apivendas.dto.ClienteDto;
 import com.ciceropinheiro.apivendas.apivendas.model.Cliente;
 import com.ciceropinheiro.apivendas.apivendas.repository.ClienteRepository;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
@@ -46,5 +48,13 @@ public class ClienteController {
 
         URI uri = uriBuilder.path("/clientes/{id}").buildAndExpand(clienteDtoConverter.getId()).toUri();
         return ResponseEntity.created(uri).body(new ClienteDto(clienteDtoConverter));
+    }
+
+    @PutMapping("/{id}")
+    @Transactional
+    public ResponseEntity<ClienteDto> atualizarCliente(@PathVariable Long id, @RequestBody @Valid AtualizarClienteDto atualizarClienteDto) {
+        Cliente cliente = atualizarClienteDto.atualizar(id, clienteRepository);
+
+        return ResponseEntity.ok(new ClienteDto(cliente));
     }
 }
