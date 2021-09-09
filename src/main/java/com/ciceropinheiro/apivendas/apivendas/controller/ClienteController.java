@@ -8,9 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.util.UriBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -38,7 +38,9 @@ public class ClienteController {
 
     }
     @PostMapping
-    public ResponseEntity<ClienteDto> cadastrarCliente(@RequestBody ClienteDto clienteDto, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<ClienteDto> cadastrarCliente(@RequestBody @Valid ClienteDto clienteDto, UriComponentsBuilder uriBuilder) {
+
+
         Cliente clienteDtoConverter = clienteDto.converter();
         clienteRepository.save(clienteDtoConverter);
 
