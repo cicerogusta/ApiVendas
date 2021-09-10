@@ -55,16 +55,29 @@ public class ClienteController {
     @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<ClienteDto> atualizarCliente(@PathVariable Long id, @RequestBody @Valid AtualizarClienteDto atualizarClienteDto) {
-        Cliente cliente = atualizarClienteDto.atualizar(id, clienteRepository);
+        Optional<Cliente> optional = clienteRepository.findById(id);
+        if (optional.isPresent()){
+            Cliente cliente = atualizarClienteDto.atualizar(id, clienteRepository);
+            return ResponseEntity.ok(new ClienteDto(cliente));
+        }
 
-        return ResponseEntity.ok(new ClienteDto(cliente));
+        return ResponseEntity.notFound().build();
+
+
+
     }
 
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<?> removerCliente(@PathVariable Long id) {
-        clienteRepository.deleteById(id);
-        return ResponseEntity.ok().build();
+        Optional<Cliente> optional = clienteRepository.findById(id);
+        if (optional.isPresent()) {
+            clienteRepository.deleteById(id);
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
+
+
 
     }
 }
