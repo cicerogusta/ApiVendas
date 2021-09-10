@@ -39,7 +39,9 @@ public class ClienteController {
 
 
     }
+
     @PostMapping
+    @Transactional
     public ResponseEntity<ClienteDto> cadastrarCliente(@RequestBody @Valid ClienteDto clienteDto, UriComponentsBuilder uriBuilder) {
 
 
@@ -56,5 +58,13 @@ public class ClienteController {
         Cliente cliente = atualizarClienteDto.atualizar(id, clienteRepository);
 
         return ResponseEntity.ok(new ClienteDto(cliente));
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity<?> removerCliente(@PathVariable Long id) {
+        clienteRepository.deleteById(id);
+        return ResponseEntity.ok().build();
+
     }
 }
