@@ -31,6 +31,8 @@ public class ClienteDto {
     private Integer diaCorte;
 
 
+
+
     public ClienteDto(Cliente cliente) {
         this.nome = cliente.getNome();
         this.cpf = cliente.getCpf();

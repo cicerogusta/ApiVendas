@@ -4,46 +4,43 @@ import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Objects;
 
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
 @ToString
 @Entity
 @Table(name = "tb_cliente")
-public class Cliente {
+public class Venda {
 
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nome;
 
-    private String cpf;
+    private Integer quantidadeParcelas;
 
     private Integer diaVencimento;
 
     private Integer diaCorte;
 
+    private BigDecimal valor;
 
-
-    public Cliente(String nome, String cpf, Integer diaVencimento, Integer diaCorte) {
-        this.nome = nome;
-        this.cpf = cpf;
+    public Venda(Integer diaVencimento, Integer diaCorte, BigDecimal valor, Integer quantidadeParcelas) {
         this.diaVencimento = diaVencimento;
         this.diaCorte = diaCorte;
-
-
+        this.valor = valor;
+        this.quantidadeParcelas = quantidadeParcelas;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Cliente cliente = (Cliente) o;
+        Venda cliente = (Venda) o;
         return Objects.equals(id, cliente.id);
     }
 
