@@ -1,5 +1,6 @@
 package com.ciceropinheiro.apivendas.apivendas.dto;
 
+import com.ciceropinheiro.apivendas.apivendas.model.Cliente;
 import com.ciceropinheiro.apivendas.apivendas.model.Venda;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
@@ -25,12 +26,15 @@ public class VendaDto {
 
     private BigDecimal valor;
 
+    private Cliente cliente;
+
 
     public VendaDto(Venda venda) {
         this.quantidadeParcelas = venda.getQuantidadeParcelas();
         this.diaVencimento = venda.getDiaVencimento();
         this.diaCorte = venda.getDiaCorte();
         this.valor = venda.getValor();
+        this.cliente = venda.getCliente();
 
     }
 
@@ -40,6 +44,6 @@ public class VendaDto {
     }
 
     public Venda converter() {
-        return new Venda(diaVencimento, diaCorte, valor, quantidadeParcelas);
+        return new Venda(null, quantidadeParcelas, diaVencimento, diaCorte, valor, cliente);
     }
 }

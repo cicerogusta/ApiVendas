@@ -4,6 +4,7 @@ import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @NoArgsConstructor
@@ -27,6 +28,9 @@ public class Cliente {
     private Integer diaVencimento;
 
     private Integer diaCorte;
+
+    @OneToMany
+    private List<Venda> venda;
 
 
 

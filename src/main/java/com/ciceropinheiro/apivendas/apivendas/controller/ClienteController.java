@@ -5,6 +5,10 @@ import com.ciceropinheiro.apivendas.apivendas.dto.ClienteDto;
 import com.ciceropinheiro.apivendas.apivendas.model.Cliente;
 import com.ciceropinheiro.apivendas.apivendas.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,8 +17,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.awt.print.Pageable;
 import java.net.URI;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -26,8 +30,10 @@ public class ClienteController {
     ClienteRepository clienteRepository;
 
     @GetMapping("/tclientes")
-    public List<ClienteDto> listarTodosClientes() {
-        List<Cliente> clientes = clienteRepository.findAll();
+    public Page<ClienteDto> listarTodosClientes(@RequestParam(required = false) @PageableDefault(sort = "id", direction = Sort.Direction.DESC, page = 0, size = 10) PageRequest paginacao) {
+
+
+        Page<Cliente> clientes = clienteRepository.findAll(paginacao);
         return ClienteDto.toDto(clientes);
 
     }
@@ -56,13 +62,12 @@ public class ClienteController {
     @Transactional
     public ResponseEntity<ClienteDto> atualizarCliente(@PathVariable Long id, @RequestBody @Valid AtualizarClienteDto atualizarClienteDto) {
         Optional<Cliente> optional = clienteRepository.findById(id);
-        if (optional.isPresent()){
+        if (optional.isPresent()) {
             Cliente cliente = atualizarClienteDto.atualizar(id, clienteRepository);
             return ResponseEntity.ok(new ClienteDto(cliente));
         }
 
         return ResponseEntity.notFound().build();
-
 
 
     }
@@ -76,7 +81,6 @@ public class ClienteController {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();
-
 
 
     }

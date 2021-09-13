@@ -5,10 +5,9 @@ import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Page;
 
 import javax.validation.constraints.NotEmpty;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -40,9 +39,9 @@ public class ClienteDto {
         this.diaCorte = cliente.getDiaCorte();
     }
 
-    public static List<ClienteDto> toDto(List<Cliente> clientes) {
+    public static Page<ClienteDto> toDto(Page<Cliente> clientes) {
 
-        return clientes.stream().map(ClienteDto::new).collect(Collectors.toList());
+        return clientes.map(ClienteDto::new);
     }
 
     public Cliente converter() {

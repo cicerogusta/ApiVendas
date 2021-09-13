@@ -1,18 +1,21 @@
 package com.ciceropinheiro.apivendas.apivendas.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+@Data
+@AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
 @ToString
 @Entity
-@Table(name = "tb_cliente")
+@Table(name = "tb_venda")
 public class Venda {
 
 
@@ -29,12 +32,10 @@ public class Venda {
 
     private BigDecimal valor;
 
-    public Venda(Integer diaVencimento, Integer diaCorte, BigDecimal valor, Integer quantidadeParcelas) {
-        this.diaVencimento = diaVencimento;
-        this.diaCorte = diaCorte;
-        this.valor = valor;
-        this.quantidadeParcelas = quantidadeParcelas;
-    }
+    @ManyToOne
+    @JoinColumn(name = "tb_cliente")
+    Cliente cliente;
+
 
     @Override
     public boolean equals(Object o) {
